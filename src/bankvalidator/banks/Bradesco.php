@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 
-namespace banks\Bradesco;
+namespace banks;
 
 use bankvalidator\Bank;
 
@@ -19,15 +19,7 @@ use bankvalidator\Bank;
  */
 Class Bradesco extends Bank {
 
-    /**
-     *
-     * $agency: onde será salvo o numero da agência, como vetor
-     * $accountNumber: onde será salvo o numero da conta, como vetor
-     *
-     * @var array
-        private $agency;
-        priv0ate $accountNumber;
-    */
+
 
     /**
      * Bradesco constructor.
@@ -49,7 +41,7 @@ Class Bradesco extends Bank {
      */
     public function getAccountFormatted():string {
 
-        $accountNumber=str_split($this->toInt($this->account));
+        $accountNumber = str_split($this->toInt($this->account));
 
 
         $format = ' ';
@@ -76,7 +68,7 @@ Class Bradesco extends Bank {
      */
     public function getAgencyFormatted():string{
 
-        $agencyformat =str_split($this->toInt($this->agency));
+        $agencyformat = str_split($this->toInt($this->agency));
 
         $x = count($agencyformat);
         $format = '';
@@ -98,7 +90,7 @@ Class Bradesco extends Bank {
      * @return bool
      */
     private function checkSize():bool{
-        if (count($this->accountNumber) > 8 or count($this->agency) > 5){
+        if (count($this->account) > 8 or count($this->agency) > 5){
             return false;
         }
         return true;
@@ -115,27 +107,28 @@ Class Bradesco extends Bank {
 
         if ($this->checkSize()) {
 
+            $agencyformat = str_split($this->toInt($this->agency));
             $values = array(5, 4, 3, 2);
             $sum = 0;
             $cont = 0;
 
-            $positions = count($this->agency);
+            $positions = count($agencyformat);
 
             $start = 5 - $positions;
 
             while ($start < 4) {
 
-                $sum = $sum + ((int)$this->agency[$cont] * $values[$start]);
+                $sum = $sum + ((int)$agencyformat[$cont] * $values[$start]);
                 $start++;
                 $cont++;
             }
             $mod = 11 - ($sum % 11);
             if ($mod == 10 or $mod == 11) {
-                if ($this->agency[$cont] == 0) {
+                if ($agencyformat[$cont] == 0) {
                     return true;
                 }
             } else {
-                if ($mod == $this->agency[$cont]) {
+                if ($mod == $agencyformat[$cont]) {
                     return true;
                 }
             }
@@ -157,22 +150,22 @@ Class Bradesco extends Bank {
             $counter = 0;
 
 
-            $position = 8 - count($this->accountNumber);
+            $position = 8 - count($this->account);
 
             $pesos = array(2, 7, 6, 5, 4, 3, 2);
             while ($position < 7) {
-                $sum = $sum + ($pesos[$position] * $this->accountNumber[$counter]);
+                $sum = $sum + ($pesos[$position] * $this->account[$counter]);
                 $counter++;
                 $position++;
             }
             $mod = $sum % 11;
             if ($mod == 0 || $mod == 1) {
-                if ($this->accountNumber[$counter] == 0) {
+                if ($this->account[$counter] == 0) {
                     return true;
                 }
             } else {
                 $mod = 11 - $mod;
-                if ($mod == $this->accountNumber[$counter]) {
+                if ($mod == $this->account[$counter]) {
                     return true;
                 }
             }
