@@ -1,0 +1,12 @@
+<phpunit colors="true" >
+    <testsuites>
+        <testsuite name="Bank Test Suit">
+            <directory>./src/tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true" >
+            <directory suffix=".php" >./src/bankvalidator/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
