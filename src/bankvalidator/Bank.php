@@ -5,9 +5,14 @@ abstract class Bank{
     public $agency;
 	public $account;
     protected $weight;
-  
 
-	public function getAgencyToInt():int{
+    function __construct(string $agency, string $account)
+    {
+        $this->$agency = $agency;
+        $this->account = $account;
+    }
+
+    public function getAgencyToInt():int{
 
         return $this->toInt($this->agency);
     }
