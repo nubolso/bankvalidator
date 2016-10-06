@@ -5,11 +5,8 @@
  * Date: 21/09/2016
  * Time: 08:51
  */
-declare(strict_types=1);
 namespace bankvalidator\banks\Bancobrasil;
-
 use bankvalidator\Bank;
-
 class Bancobrasil extends Bank
 {
     public $account;
