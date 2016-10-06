@@ -5,7 +5,7 @@
     },
     "autoload": {
         "psr-4": {
-            "game\\": "src/bankvalidator"
+            "bankvalidator\\": "src/bankvalidator"
         }
     }
 }
