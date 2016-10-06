@@ -1,38 +1,32 @@
 <?php
 
-declare(strict_types=1);
-
 namespace banks\Itau;
 
 use bankvalidator\Bank;
 
-/**
- * Class validator accounts and agency's Itau
- * Class Itau
- * @package banks\Itau
- */
 class Itau extends Bank{
+
+    private $number;
 
     public function __construct($agency, $account)
     {
         parent::__construct($agency, $account);
+        $this->number = $this->toInt($agency).$this->toInt($account);
     }
 
-    public function getAccountFormatted():string
-    {
+    public function getAccountFormatted():string{
         // TODO: Implement getAccountFormatted() method.
-        return 0;
+        return '';
     }
 
-    public function getAgencyFormatted():string
-    {
+    public function getAgencyFormatted():string{
         // TODO: Implement getAgencyFormatted() method.
-        return 0;
+        return '';
     }
 
-    public function validate():bool
-    {
+    public function validate():bool{
         // TODO: Implement validate() method.
+
         return 0;
     }
 
