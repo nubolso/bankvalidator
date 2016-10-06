@@ -31,7 +31,7 @@ abstract class Bank{
     }
 	
 	/**
-    * conta o númenro de digitos
+    * conta o número de digitos
     * @param int $number
     * @return int quantidade de digitos de um número
     */
@@ -52,4 +52,5 @@ abstract class Bank{
     abstract public function validate():bool;
     abstract public function getAccountFormatted():string;
 	abstract public function getAgencyFormatted():string;
+
 }
