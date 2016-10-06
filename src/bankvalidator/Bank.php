@@ -31,7 +31,7 @@ abstract class Bank{
     }
 	
 	/**
-    * conta o númenro de digitos
+    * conta o número de digitos
     * @param int $number
     * @return int quantidade de digitos de um número
     */
