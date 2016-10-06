@@ -9,8 +9,6 @@ namespace bankvalidator\banks\Bancobrasil;
 use bankvalidator\Bank;
 class Bancobrasil extends Bank
 {
-    public $account;
-    public $agency;
     /**
      * Bancobrasil construtor
      * recebe o número da agencia e conta bancaria
@@ -19,8 +17,7 @@ class Bancobrasil extends Bank
      * @param string $account
      */
     public function __construct(string $agency, string $account){
-        $this->account=$account;
-        $this->agency=$agency;
+        parent::__construct($agency, $account);
     }
     /**
      * formata a string com apenas números
