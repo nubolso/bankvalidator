@@ -21,7 +21,7 @@ abstract class Bank{
 		$converted = str_replace('.','',$value);
         $converted = str_replace('-','',$converted);
         $converted = str_replace('/','',$converted);
-        $converted = Str_replace(' ', '', $converted);
+        $converted = str_replace(' ', '', $converted);
         return (int)$converted;
 	}
 	

@@ -22,34 +22,29 @@ Class Bradesco extends Bank {
 
     /**
      *
-     * $agencia: onde será salvo o numero da agencia, como vetor
-     * $numeroConta: onde será salvo o numero da conta, como vetor
+     * $: onde será salvo o numero da agency, como vetor
+     * $accountNumber: onde será salvo o numero da conta, como vetor
      *
      * @var array
      */
-    private $agencia;
-    private $numeroConta;
+    private $agency;
+    private $accountNumber;
 
     /**
      * Bank constructor.
-     * @param string $agencia
-     * @param string $numeroConta
+     * @param string $agency
+     * @param string $accountNumber
      * @throws \Exception
      */
-    public function __construct(string $agencia, string $numeroConta) {
+    public function __construct(string $agency, string $accountNumber) {
 
-        $this->numeroConta=$numeroConta;
-        $this->agencia=$agencia;
-        $this->numeroConta=str_replace('P', '0', $this->numeroConta);
-        $this->numeroConta= (string)str_replace('-', '', $this->numeroConta);
-        $this->agencia=str_replace('P', '0', $this->agencia);
-        $this->agencia= (string)str_replace('-', '', $this->agencia);
-        $value = (float) ($this->agencia . $this->numeroConta);
+        parent::__construct($agency, $accountNumber);
 
-        parent::__construct($value);
-        
-        $this->agencia = str_split($this->agencia);
-        $this->numeroConta=str_split($this->numeroConta);
+        $this->accountNumber=$this->toInt($accountNumber);
+        $this->agency=$this->toInt($agency);
+
+        $this->agency = str_split($this->agency);
+        $this->accountNumber=str_split($this->accountNumber);
 
     }
 
@@ -61,9 +56,9 @@ Class Bradesco extends Bank {
     public function getAccountFormatted():string {
         
         $format = ' ';
-        $x = count($this->numeroConta);
+        $x = count($this->accountNumber);
         
-        foreach ($this->numeroConta as $y) {
+        foreach ($this->accountNumber as $y) {
 
             if ($x == 1) {
                 $format = $format . '-';
@@ -83,9 +78,9 @@ Class Bradesco extends Bank {
      * @return string
      */
     public function getAgencyFormatted():string{
-        $x = count($this->agencia);
+        $x = count($this->agency);
         $format = '';
-        foreach ($this->agencia as $y) {
+        foreach ($this->agency as $y) {
 
             if ($x == 1) {
                 $format = $format . '-';
@@ -103,7 +98,7 @@ Class Bradesco extends Bank {
      * @return bool
      */
     private function verificaTamanho():bool{
-        if (count($this->numeroConta) > 8 or count($this->agencia) > 5){
+        if (count($this->accountNumber) > 8 or count($this->agency) > 5){
             return false;
         }
         return true;
@@ -124,23 +119,23 @@ Class Bradesco extends Bank {
             $soma = 0;
             $cont = 0;
 
-            $posic = count($this->agencia);
+            $posic = count($this->agency);
 
             $inicio = 5 - $posic;
 
             while ($inicio < 4) {
 
-                $soma = $soma + ((int)$this->agencia[$cont] * $valores[$inicio]);
+                $soma = $soma + ((int)$this->agency[$cont] * $valores[$inicio]);
                 $inicio++;
                 $cont++;
             }
             $mod = 11 - ($soma % 11);
             if ($mod == 10 or $mod == 11) {
-                if ($this->agencia[$cont] == 0) {
+                if ($this->agency[$cont] == 0) {
                     return true;
                 }
             } else {
-                if ($mod == $this->agencia[$cont]) {
+                if ($mod == $this->agency[$cont]) {
                     return true;
                 }
             }
@@ -162,22 +157,22 @@ Class Bradesco extends Bank {
             $contador = 0;
 
 
-            $posic = 8 - count($this->numeroConta);
+            $posic = 8 - count($this->accountNumber);
 
             $pesos = array(2, 7, 6, 5, 4, 3, 2);
             while ($posic < 7) {
-                $soma = $soma + ($pesos[$posic] * $this->numeroConta[$contador]);
+                $soma = $soma + ($pesos[$posic] * $this->accountNumber[$contador]);
                 $contador++;
                 $posic++;
             }
             $mod = $soma % 11;
             if ($mod == 0 || $mod == 1) {
-                if ($this->numeroConta[$contador] == 0) {
+                if ($this->accountNumber[$contador] == 0) {
                     return true;
                 }
             } else {
                 $mod = 11 - $mod;
-                if ($mod == $this->numeroConta[$contador]) {
+                if ($mod == $this->accountNumber[$contador]) {
                     return true;
                 }
             }
@@ -198,5 +193,5 @@ Class Bradesco extends Bank {
         }
         return false;
     }
-
+}
 }
