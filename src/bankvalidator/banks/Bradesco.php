@@ -9,6 +9,7 @@ namespace banks\Bradesco;
 use bankvalidator\Bank;
 
 
+
 /**
  *
  * Classe validadora de contas Bradesco
