@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Genivaldo
- * Date: 21/09/2016
- * Time: 08:51
- */
-namespace bankvalidator\banks\Bancobrasil;
-use bankvalidator\Bank;
+namespace src\bankvalidator\banks;
+use src\bankvalidator\Bank;
 class Bancobrasil extends Bank
 {
     /**
@@ -22,15 +16,15 @@ class Bancobrasil extends Bank
     /**
      * formata a string com apenas números
      * @param string $account or $agency.
-     * @return string com apenas números e substituindo 'x' por '0', ignora outros caracteres.
+     * @return int com apenas números e substituindo 'x' por '0', ignora outros caracteres.
      */
-    protected function formated(string $account):int{
+    protected function formatted(string $account):int{
         $account = strtolower($account);
         $tmp2 = array();
         $tmp1 = str_split($account);
         $i = 0;
         foreach($tmp1 as $char){
-            if((ord($char) >= 48 AND ord($char) <= 57) OR ord($char) == 120){
+            if((ord($char) >= 48 AND ord($char) <= 57)){
                 $tmp2[$i] = $char;
                 $i++;
             }
@@ -42,14 +36,47 @@ class Bancobrasil extends Bank
         $account = implode("", $tmp2);
         return (int)$account;
     }
+    private function getFormatted(string $number):string
+    {
+        $account1 = (string)$this->formatted($number);
+        $account1 = str_split($account1);
+        $account2 = array();
+        $size = count($account1);
+        $i = 0;
+        $j = 0;
+        while($i < $size){
+            if($j == $size - 1){
+                $account2[$j] = '-';
+                $j++;
+            }
+            else{
+                $account2[$j] = $account1[$i];
+                $i++;
+                $j++;
+            }
+        }
+        if($account2[$size - 1] == '0'){
+            $account2[$size - 1] = 'x';
+        }
+        $account2 = implode($account2);
+        return (string)$account2;
+    }
+    public function getAccountFormatted():string
+    {
+        return $this->getFormatted($this->account);
+    }
+    public function getAgencyFormatted():string
+    {
+        return $this->getFormatted($this->agency);
+    }
     /**
      * valida o número com digito verificador
      * @param string $account or $agency.
      * @return bool 1 = $account or $agency corretos, 0 = $account or $agency incorretos.
      */
-    protected function validateBrasil(string $account):bool
+    public function validateMultiply(string $account):bool
     {
-        $number = $this->formated($account);
+        $number = $this->formatted($account);
         $parameters = pow(10, ($this->numberDigits($number) - 1));
         $md11 = $this->numberDigits($number);
         $size = $this->numberDigits($number);
@@ -81,15 +108,10 @@ class Bancobrasil extends Bank
      * @verifica se os números da agencia e conta estão corretos, com o digito verificador
      * @return int -1 = agencia incorreta, 0 = conta incorreta, 1 = agencia e conta estão corretas
      */
-
-
-    public function validateAgencyAccount():int{
-        if(!$this->validateBrasil($this->account)){
-            return 0;
+    public function validate():bool{
+        if($this->validateMultiply($this->account) AND $this->validateMultiply($this->agency) ){
+            return true;
         }
-        if(!$this->validateBrasil($this->agency)){
-            return -1;
-        }
-        return 1;
+        return false;
     }
 }
