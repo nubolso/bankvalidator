@@ -65,15 +65,65 @@ class Bancobrasil extends Bank
             $account2[$size - 1] = 'x';
         }
         $account2 = implode($account2);
-        return (string)$account2;
+        return $account2;
     }
+    /**
+     * completa com zero(s) a esquerda caso o tenha.
+     * @param string $accountOrAgency
+     * @return array|string
+     */
+    public function zeroLeft(string $accountOrAgency){
+        $accountZero = $accountOrAgency;
+        $accountZero = str_split($accountZero);
+        $i = 0;
+        $cont = 0;
+        while($i < count($accountZero)){
+            if($accountZero[$i] == '0'){
+                $cont++;
+            }
+            $i++;
+        }
+        $accountFormatted = (string)$this->getFormatted($accountOrAgency);
+        $accountFormatted = str_split($accountFormatted);
+        $i = 0;
+        $j = 0;
+        $aux = array();
+        if($cont > 0) {
+            while ($j < count($accountFormatted)) {
+                if ($i < $cont) {
+                    $aux[$i] = '0';
+                    $i++;
+                }
+                else{
+                    $aux[$i] = $accountFormatted[$j];
+                    $j++;
+                    $i++;
+                }
+            }
+            $aux = implode($aux);
+            $accountFormatted = $aux;
+        }
+        else{
+            $accountFormatted = implode($accountFormatted);
+        }
+        return $accountFormatted;
+    }
+    /**
+     * formata o número da conta no padrão xxxx-x
+     * @return string
+     */
     public function getAccountFormatted():string
     {
-        return $this->getFormatted($this->account);
+        return $this->zeroLeft($this->account);
     }
+
+    /**
+     * formata o número da agencia no padrão xxxx-x
+     * @return string
+     */
     public function getAgencyFormatted():string
     {
-        return $this->getFormatted($this->agency);
+        return $this->zeroLeft($this->agency);
     }
     /**
      * valida o número com digito verificador
