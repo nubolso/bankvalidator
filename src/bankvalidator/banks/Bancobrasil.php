@@ -36,6 +36,12 @@ class Bancobrasil extends Bank
         $account = implode("", $tmp2);
         return (int)$account;
     }
+
+    /**
+     * formata os números da conta e agencia neste padrão xxxx-x
+     * @param string $number
+     * @return string
+     */
     private function getFormatted(string $number):string
     {
         $account1 = (string)$this->formatted($number);
@@ -106,7 +112,7 @@ class Bancobrasil extends Bank
     /**
      * testa tanto o número da agencia como o numero da conta
      * @verifica se os números da agencia e conta estão corretos, com o digito verificador
-     * @return int -1 = agencia incorreta, 0 = conta incorreta, 1 = agencia e conta estão corretas
+     * @return bool false = conta e agencia incorretas, true = agencia e conta corretas
      */
     public function validate():bool{
         if($this->validateMultiply($this->account) AND $this->validateMultiply($this->agency) ){
