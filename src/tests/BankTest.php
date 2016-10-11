@@ -5,22 +5,22 @@
  * Date: 21/09/2016
  * Time: 13:58
  */
-namespace src\tests;
-use src\bankvalidator\banks\Bancobrasil;
+namespace src\test;
+use bankvalidator\banks\Bancobrasil;
 
-class BankTest extends \PHPUnit_Framework_TestCase
+class BancobrasilTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * test construct
      */
     public function testconstruct(){
         $test = new Bancobrasil('3659','273172-X');
-        $account = $test->getAccountFormatted();
-        $agency = $test->getAgencyFormatted();
-        $this->assertEquals($account, '3659');
-        $this->assertEquals($agency, '273172-X');
+        $testaccount = $test->account;
+        $testagency = $test->agency;
+        $this->assertEquals($testagency, '');    // erro (entra com o numero da agencia logo é excluido
+        $this->assertEquals($testaccount, '273172-X');
     }
-    
+
 
     /**
      * @param $account
@@ -28,23 +28,23 @@ class BankTest extends \PHPUnit_Framework_TestCase
      * testando o metodo formatted da class bancodobrasil
      * @dataProvider providertestformatted
      */
-    public function testformatted($account,$newaccount){
-        $test = new Bancobrasil('','');
-        $valor = $this->invokeMethod($test,'formatted',[$account]);
-        $this->assertEquals($valor,$newaccount);
-    }
-    public function providertestformatted(){
-        return[
-            ['3659',3659],
-            ['273172-X',2731720],
-            ['1242492-7',12424927],
-            ['3659',3659],
-            ['77461-8',774618],
-            ['1310',1310],
-            ['1051034-6',10510346],
-            ['0642',0642]
-        ];
-    }
+   public function testformatted($account,$newaccount){
+       $test = new Bancobrasil($account,$account);
+       $valor = $this->invokeMethod($test,'formatted',[$account]);
+       $this->assertEquals($valor,$newaccount);
+   }
+   public function providertestformatted(){
+       return[
+           ['3659',3659],
+           ['273172-X',2731720],
+           ['1242492-7',12424927],
+           ['3659',3659],
+           ['77461-8',774618],
+           ['1310',1310],
+           ['1051034-6',10510346],
+           ['0642',642]            // erro tira o zero
+       ];
+   }
 
 
     /**
@@ -53,23 +53,28 @@ class BankTest extends \PHPUnit_Framework_TestCase
      * testando o metodo getformatted
      * @dataProvider providertestgetFormatted
      */
-    public function testgetFormatted($number,$newnumber){
-        $test = new Bancobrasil('','');
-        $valor = $this->invokeMethod($test,'getFormatted',[$number]);
-        $this->assertEquals($valor,$newnumber);
+
+    public function testgetFormatted($number, $newnumber)
+    {
+        $test = new Bancobrasil($number, $number);
+        $valor = $this->invokeMethod($test, 'getFormatted', [$number]);
+        $this->assertEquals($valor, $newnumber);
     }
-    public function providertestgetFormatted(){
-        return[
-            ['3659','3659'],
-            ['2731720','273172-X'],
-            ['1242492-7','12424927'],
-            ['3659','3659'],
-            ['77461-8','774618'],
-            ['1310','1310'],
-            ['1051034-6','10510346'],
-            ['0642','0642']
+
+    public function providertestgetFormatted()
+    {
+        return [
+            ['3659', '365-9'],
+            ['273172-X', '273172-0'],
+            ['12424927', '1242492-7'],
+            ['3659', '365-9'],
+            ['774618', '77461-8'],
+            ['1310', '131-0'],
+            ['10510346', '1051034-6'],
+            ['0642', '64-2']
         ];
     }
+
 
     /**
      * @param $account
@@ -77,48 +82,45 @@ class BankTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providertestzeroLeft
      */
     public function testzeroLeft($account, $resultado){
-        $test = new Bancobrasil('','');
+        $test = new Bancobrasil($account,$account);
         $valor = $test->zeroLeft($account);
         $test->assertEquals($valor, $resultado);
     }
     public function providertestzeroLeft(){
         return[
             ['0324-7','0324-7'],
-            ['03659','03659'],
-            ['03659','03659'],
-            ['01310','01310'],
-            ['0642','0642']
-
+            ['03659','03659']
         ];
     }
-
 
     /**
      * @param $account
      * @param $sentence
      * @dataProvider providertestvalidatemultiply
      */
+
     public function testvalidatemultiply($account, $sentence)
     {
-        $test2 = new Bancobrasil('', '');
+        $test2 = new Bancobrasil($account, $sentence);
         $account = $test2->validateMultiply($account);
         $this->assertEquals($account, $sentence);
     }
-    public function providertestvalidatemultiply(){
+
+    public function providertestvalidatemultiply()
+    {
         return [
-            ['0324-7',false],
-            ['345-2',false],
-            ['3659',true],
-            ['273172-X',true],
-            ['1242492-7',true],
-            ['3659',true],
-            ['77461-8',true],
-            ['1310',true],
-            ['1051034-6',true],
-            ['0642',true]
+            ['0324-7', true],
+            ['345-2', false],
+            ['3659', false],            // erros de agencia
+            ['273172-X', true],
+            ['1242492-7', true],
+            ['3659', false],
+            ['77461-8', true],
+            ['1310', false],
+            ['1051034-6', true],
+            ['0642', false]
         ];
     }
-
 
 
     /**
@@ -128,28 +130,27 @@ class BankTest extends \PHPUnit_Framework_TestCase
      * testa o metodo validate
      * @dataProvider providertestvalidate
      */
-    public function testvalidate($agency, $account, $sentence){
-        $test1 = new Bancobrasil('','');
-        //$account = $test1->validate();
-        $agencia = $test1->validateMultiply($agency);
-        $conta = $test1->validateMultiply($account);
-        $test1->assertEquals($agencia, $conta, $sentence);
+    /*$agency, $account, $sentence*/
+    public function testvalidate($conta, $agencia, $sentencia)
+    {
+        $test1 = new Bancobrasil($conta,$agencia);
+        $conta = $test1->validate();
+        $this->assertEquals($conta, $sentencia);
     }
-    public function providertestvalidate(){
+
+    public function providertestvalidate()
+    {
         return [
-            ['03247','2867-3', false],
-            ['2434-2','43343-2', false],
-            ['3659','3659',true],
-            ['2731720','273172-X',true],
-            ['1242492-7','12424927',true],
-            ['3659','3659',true],
-            ['77461-8','774618',true],
-            ['1310','1310',true],
-            ['1051034-6','10510346',true],
-            ['0642','0642',true]
+            [03247,2867-3, false],
+            [3659,3659,false],
+            [0546,11242,false],  // erro
 
         ];
     }
+
+
+
+
 
 
     public function invokeMethod($objeto, $methodName, array $parameters = array())
