@@ -20,8 +20,7 @@ class BankTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($account, '3659');
         $this->assertEquals($agency, '273172-X');
     }
-
-
+    
 
     /**
      * @param $account
@@ -72,7 +71,6 @@ class BankTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-
     /**
      * @param $account
      * @param $resultado
@@ -83,13 +81,12 @@ class BankTest extends \PHPUnit_Framework_TestCase
         $valor = $test->zeroLeft($account);
         $test->assertEquals($valor, $resultado);
     }
-
     public function providertestzeroLeft(){
         return[
-            ['324-7','0324-7'],
-            ['3659','3659'],
-            ['3659','03659'],
-            ['1310','01310'],
+            ['0324-7','0324-7'],
+            ['03659','03659'],
+            ['03659','03659'],
+            ['01310','01310'],
             ['0642','0642']
 
         ];
@@ -107,7 +104,6 @@ class BankTest extends \PHPUnit_Framework_TestCase
         $account = $test2->validateMultiply($account);
         $this->assertEquals($account, $sentence);
     }
-
     public function providertestvalidatemultiply(){
         return [
             ['0324-7',false],
