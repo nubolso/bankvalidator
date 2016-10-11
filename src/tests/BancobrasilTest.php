@@ -13,11 +13,12 @@ class BancobrasilTest extends \PHPUnit_Framework_TestCase
     /**
      * test construct
      */
-    public function testconstruct(){
-        $test = new Bancobrasil('3659','273172-X');
+    public function testconstruct()
+    {
+        $test = new Bancobrasil('3659', '273172-X');
         $testaccount = $test->account;
         $testagency = $test->agency;
-        $this->assertEquals($testagency, '');    // erro (entra com o numero da agencia logo é excluido
+        $this->assertEquals($testagency, '3659');
         $this->assertEquals($testaccount, '273172-X');
     }
 
@@ -28,23 +29,26 @@ class BancobrasilTest extends \PHPUnit_Framework_TestCase
      * testando o metodo formatted da class bancodobrasil
      * @dataProvider providertestformatted
      */
-   public function testformatted($account,$newaccount){
-       $test = new Bancobrasil($account,$account);
-       $valor = $this->invokeMethod($test,'formatted',[$account]);
-       $this->assertEquals($valor,$newaccount);
-   }
-   public function providertestformatted(){
-       return[
-           ['3659',3659],
-           ['273172-X',2731720],
-           ['1242492-7',12424927],
-           ['3659',3659],
-           ['77461-8',774618],
-           ['1310',1310],
-           ['1051034-6',10510346],
-           ['0642',642]            // erro tira o zero
-       ];
-   }
+    public function testformatted($account, $newaccount)
+    {
+        $test = new Bancobrasil($account, $account);
+        $valor = $this->invokeMethod($test, 'formatted', [$account]);
+        $this->assertEquals($valor, $newaccount);
+    }
+
+    public function providertestformatted()
+    {
+        return [
+            ['3659', '3659'],
+            ['273172-X', '2731720'],
+            ['1242492-7', '12424927'],
+            ['3659', '3659'],
+            ['77461-8', '774618'],
+            ['1310', '1310'],
+            ['1051034-6', '10510346'],
+            ['0642', '0642']
+        ];
+    }
 
 
     /**
@@ -75,22 +79,30 @@ class BancobrasilTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+/*
+        public function testzeroLeft(){
+            $test = new Bancobrasil('0324-7','0324-7');
+            $valor = $test->zeroLeft('010');
+            $test->assertEquals($valor,'010');
+        }
+        /*
+        public function providertestzeroLeft(){
+            return[
+                ['0324-7','0324-7'],
+                ['03659','03659']
+            ];
+        }
+        */
 
-    /**
-     * @param $account
-     * @param $resultado
-     * @dataProvider providertestzeroLeft
-     */
-    public function testzeroLeft($account, $resultado){
-        $test = new Bancobrasil($account,$account);
-        $valor = $test->zeroLeft($account);
-        $test->assertEquals($valor, $resultado);
+    public function testgetAccountFormatted(){
+        $test = new Bancobrasil('0101','0101');
+        $valor = $test->getAccountFormatted();
+        $this->assertEquals($valor,'010-1');
     }
-    public function providertestzeroLeft(){
-        return[
-            ['0324-7','0324-7'],
-            ['03659','03659']
-        ];
+    public function testgetAgencyFormatted(){
+        $test = new Bancobrasil('0101','0101');
+        $valor = $test->getAgencyFormatted();
+        $this->assertEquals($valor,'010-1');
     }
 
     /**
@@ -111,7 +123,7 @@ class BancobrasilTest extends \PHPUnit_Framework_TestCase
         return [
             ['0324-7', true],
             ['345-2', false],
-            ['3659', false],            // erros de agencia
+            ['3659', false],
             ['273172-X', true],
             ['1242492-7', true],
             ['3659', false],
@@ -133,7 +145,7 @@ class BancobrasilTest extends \PHPUnit_Framework_TestCase
     /*$agency, $account, $sentence*/
     public function testvalidate($conta, $agencia, $sentencia)
     {
-        $test1 = new Bancobrasil($conta,$agencia);
+        $test1 = new Bancobrasil($conta, $agencia);
         $conta = $test1->validate();
         $this->assertEquals($conta, $sentencia);
     }
@@ -141,16 +153,12 @@ class BancobrasilTest extends \PHPUnit_Framework_TestCase
     public function providertestvalidate()
     {
         return [
-            [03247,2867-3, false],
-            [3659,3659,false],
-            [0546,11242,false],  // erro
+            [03247, 2867 - 3, false],
+            [3659, 3659, false],
+            [0546, 11242, false],  // erro
 
         ];
     }
-
-
-
-
 
 
     public function invokeMethod($objeto, $methodName, array $parameters = array())
