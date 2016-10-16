@@ -187,4 +187,3 @@ Class Bradesco extends Bank {
         return false;
     }
 }
-}
