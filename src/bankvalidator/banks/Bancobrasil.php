@@ -10,7 +10,8 @@ class Bancobrasil extends Bank
      * @param string $agency
      * @param string $account
      */
-    public function __construct(string $agency, string $account){
+    public function __construct(string $agency, string $account)
+    {
         parent::__construct($agency, $account);
     }
     /**
@@ -18,7 +19,8 @@ class Bancobrasil extends Bank
      * @param string $account or $agency.
      * @return int com apenas números e substituindo 'x' por '0', ignora outros caracteres.
      */
-    protected function formatted(string $account):int{
+    public function formatted(string $account):int
+    {
         $account = strtolower($account);
         $tmp2 = array();
         $tmp1 = str_split($account);
@@ -36,13 +38,12 @@ class Bancobrasil extends Bank
         $account = implode("", $tmp2);
         return (int)$account;
     }
-
     /**
      * formata os números da conta e agencia neste padrão xxxx-x
      * @param string $number
      * @return string
      */
-    private function getFormatted(string $number):string
+    public function getFormatted(string $number):string
     {
         $account1 = (string)$this->formatted($number);
         $account1 = str_split($account1);
@@ -72,7 +73,8 @@ class Bancobrasil extends Bank
      * @param string $accountOrAgency
      * @return array|string
      */
-    public function zeroLeft(string $accountOrAgency){
+    public function zeroLeft(string $accountOrAgency):string
+    {
         $accountZero = $accountOrAgency;
         $accountZero = str_split($accountZero);
         $i = 0;
@@ -80,6 +82,9 @@ class Bancobrasil extends Bank
         while($i < count($accountZero)){
             if($accountZero[$i] == '0'){
                 $cont++;
+            }
+            else{
+                $i = count($accountZero);
             }
             $i++;
         }

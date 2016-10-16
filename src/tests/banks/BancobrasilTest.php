@@ -7,7 +7,6 @@
  */
 namespace test\banks;
 use bankvalidator\banks\Bancobrasil;
-
 class BancobrasilTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -21,15 +20,13 @@ class BancobrasilTest extends \PHPUnit_Framework_TestCase
     }
     /**
      * @param $account
-     * @param $newaccount
-     * testando o metodo formatted da class bancodobrasil
+     * @param $newAccount
      * @dataProvider providerTestFormatted
      */
     public function testFormatted($account, $newAccount)
     {
         $test = new Bancobrasil($account, $account);
-        $valor = $this->invokeMethod($test, 'formatted', [$account]);
-        $this->assertEquals($valor->formatted($account), $newAccount);
+        $this->assertEquals($test->formatted($account), $newAccount);
     }
     public function providerTestFormatted()
     {
@@ -49,67 +46,85 @@ class BancobrasilTest extends \PHPUnit_Framework_TestCase
      * @param $newNumber
      * @dataProvider providerTestGetFormatted
      */
-
     public function testGetFormatted($number, $newNumber)
     {
         $test = new Bancobrasil($number, $number);
-        $valor = $this->invokeMethod($test, 'getFormatted', [$number]);
-        $this->assertEquals($valor, $newNumber);
+        $this->assertEquals($test->getFormatted($number), $newNumber);
     }
-
     public function providerTestGetFormatted()
     {
         return [
             ['3659', '365-9'],
-            ['273172-X', '273172-x'],
+            ['273172-X', '273172-0'],
             ['12424927', '1242492-7'],
             ['3659', '365-9'],
             ['774618', '77461-8'],
-            ['1310', '131-x'],
+            ['1310', '131-0'],
             ['10510346', '1051034-6'],
             ['0642', '64-2']
         ];
     }
-
-/*
-        public function testzeroLeft(){
-            $test = new Bancobrasil('0324-7','0324-7');
-            $valor = $test->zeroLeft('010');
-            $test->assertEquals($valor,'010');
-        }
-        /*
-        public function providertestzeroLeft(){
-            return[
-                ['0324-7','0324-7'],
-                ['03659','03659']
-            ];
-        }
-
-
-    public function testgetAccountFormatted(){
-        $test = new Bancobrasil('0101','0101');
-        $valor = $test->getAccountFormatted();
-        $this->assertEquals($valor,'010-1');
-    }
-    public function testgetAgencyFormatted(){
-        $test = new Bancobrasil('0101','0101');
-        $valor = $test->getAgencyFormatted();
-        $this->assertEquals($valor,'010-1');
-    }
-    */
     /**
+     * @param $number
+     * @param $newNumber
+     * @dataProvider providerTestZeroLeft
+     */
+    public function testZeroLeft($number, $newNumber){
+        $test = new Bancobrasil($number,$number);
+        $this->assertEquals($test->zeroLeft($number),$newNumber);
+    }
+    public function providerTestZeroLeft(){
+        return[
+            ['0324-7','0324-7'],
+            ['03659','0365-9'],
+            ['000001','00000-1'],
+            ['220048-x','220048-0']
+        ];
+    }
+    /**
+     * @param $number
+     * @param $newNumber
+     * @dataProvider providerTestGetAccountFormatted
+     */
+    public function testGetAccountFormatted($number, $newNumber){
+        $test = new Bancobrasil($number,$number);
+        $this->assertEquals($test->getAccountFormatted(),$newNumber);
+    }
+    public function providerTestGetAccountFormatted(){
+        return[
+            ['03247','0324-7'],
+            ['00468','0046-8'],
+            ['248673','24867-3'],
+            ['220048-x','220048-0']
+        ];
+    }
+    /**
+     * @param $number
+     * @param $newNumber
+     * @dataProvider providerTestGetAgencyFormatted
+     */
+    public function testGetAgencyFormatted($number,$newNumber){
+        $test = new Bancobrasil($number,$number);
+        $this->assertEquals($test->getAgencyFormatted(),$newNumber);
+    }
+    public function providerTestGetAgencyFormatted(){
+        return[
+            ['03247','0324-7'],
+            ['00468','0046-8'],
+            ['248673','24867-3'],
+            ['220048-x','220048-0']
+        ];
+    }
+     /**
      * @param $account
      * @param $sentence
      * @dataProvider providerTestValidateMultiply
      */
-
     public function testValidateMultiply($account, $sentence)
     {
-        $test2 = new Bancobrasil($account, $sentence);
-        $account = $test2->validateMultiply($account);
-        $this->assertEquals($account, $sentence);
+        $test = new Bancobrasil($account, $sentence);
+        $this->assertEquals($test->validateMultiply($account), $sentence);
     }
-
     public function providerTestValidateMultiply()
     {
         return [
@@ -125,39 +140,24 @@ class BancobrasilTest extends \PHPUnit_Framework_TestCase
             ['0642', false]
         ];
     }
-
-
     /**
-     * @param $agency
      * @param $account
+     * @param $agency
      * @param $sentence
-     * testa o metodo validate
      * @dataProvider providerTestValidate
      */
-    /*$agency, $account, $sentence*/
-    public function testValidate($conta, $agencia, $sentencia)
+    public function testValidate($agency, $account,  $sentence)
     {
-        $test1 = new Bancobrasil($conta, $agencia);
-        $conta = $test1->validate();
-        $this->assertEquals($conta, $sentencia);
+        $test = new Bancobrasil($agency, $account);
+        $this->assertEquals($test->validate(), $sentence);
     }
-
     public function providerTestValidate()
     {
         return [
-            [03247, 2867 - 3, false],
-            [3659, 3659, false],
-            [0546, 11242, false],  // erro
-
+            ['03247', '24867-3', true],
+            ['03247', '238538', true],
+            ['2458','24589',false],
+            ['25689','12458',false]
         ];
-    }
-
-
-    public function invokeMethod($objeto, $methodName, array $parameters = array())
-    {
-        $reflection = new \ReflectionClass(get_class($objeto));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-        return $method->invokeArgs($objeto, $parameters);
     }
 }
