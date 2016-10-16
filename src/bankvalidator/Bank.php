@@ -1,22 +1,18 @@
 <?php
 namespace bankvalidator;
-
 abstract class Bank{
     public $agency;
 	public $account;
     protected $weight;
-
     function __construct(string $agency, string $account)
     {
-        $this->$agency = $agency;
+        $this->agency = $agency;
         $this->account = $account;
     }
-
     public function getAgencyToInt():int{
 
         return $this->toInt($this->agency);
     }
-	
 	protected function toInt(string $value):int{
 		$converted = str_replace('.','',$value);
         $converted = str_replace('-','',$converted);
@@ -24,12 +20,10 @@ abstract class Bank{
         $converted = str_replace(' ', '', $converted);
         return (int)$converted;
 	}
-	
 	public function getAccountToInt():int{
 
         return $this->toInt($this->account);
     }
-	
 	/**
     * conta o número de digitos
     * @param int $number
@@ -46,11 +40,7 @@ abstract class Bank{
         }
         return $frags;
     }
-	
-	
-	
     abstract public function validate():bool;
     abstract public function getAccountFormatted():string;
 	abstract public function getAgencyFormatted():string;
-
 }

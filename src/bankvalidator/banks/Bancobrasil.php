@@ -1,6 +1,6 @@
 <?php
-namespace src\bankvalidator\banks;
-use src\bankvalidator\Bank;
+namespace bankvalidator\banks;
+use bankvalidator\Bank;
 class Bancobrasil extends Bank
 {
     /**
