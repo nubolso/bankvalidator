@@ -42,5 +42,5 @@ abstract class Bank{
     }
     abstract public function validate():bool;
     abstract public function getAccountFormatted():string;
-	abstract public function getAgencyFormatted():string;
+    abstract public function getAgencyFormatted():string;
 }
