@@ -66,7 +66,7 @@ Class Bradesco extends Bank {
      * Converte a agência para string, adicionando o ' - '.
      * @return string
      */
-    public function getAgencyFormatted():string{
+    public function getAgencyFormatted():string {
 
         $agencyformat = str_split($this->toInt($this->agency));
 
@@ -81,6 +81,14 @@ Class Bradesco extends Bank {
             $x--;
         }
         return $format;
+    }
+    
+    /**
+    * Converte a agência e a conta para string.
+    * @return string
+    */
+    public function getFormatted():string  {
+    return (getAgencyFormatted() . ' ' . getAccountFormatted());
     }
 
     /**
