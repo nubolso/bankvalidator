@@ -94,12 +94,12 @@ Class Bradesco extends Bank {
     /**
      *
      * Metodo que verifica se a quantidade de numeros digitadas foi superior ao numero máximo de dígitos
-     * @param string $tocheck
+     * @param array $tocheck
      * @param integer $type
      * @return bool
      */
-    private function checkSize(string $tocheck, int $type):bool{
-        if (((count($tocheck) > 8) and (type == 1)) or (count($tocheck) > 5) and (type == 0))) {
+    private function checkSize(array $tocheck, int $type):bool{
+        if (((count($tocheck) > 8) and ($type == 1)) or ((count($tocheck) > 5) and ($type == 0))) {
             return false;
         }
         return true;
