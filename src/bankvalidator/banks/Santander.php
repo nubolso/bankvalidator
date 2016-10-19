@@ -18,6 +18,9 @@ class Santander extends Bank{
         $accountlocal = $this->getAccountToInt();
 
         $add =  4 - strlen((string)$agencylocal);
+        if ($add < 0){
+          return false;
+        }
         $count = 0;
         while ($add != $count){
             $agencylocal = '0'.(string)$agencylocal;
@@ -25,6 +28,9 @@ class Santander extends Bank{
         }
 
         $add =  10 - strlen((string)$accountlocal);
+        if ($add < 0){
+            return false;
+        }
         $count = 0;
         while ($add != $count){
             $accountlocal = '0'.(string)$accountlocal;
