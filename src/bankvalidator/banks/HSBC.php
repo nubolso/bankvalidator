@@ -31,32 +31,49 @@ class HSBC extends Bank
      */
     public function validate():bool
     {
-
-        $cont1 = 0;
-
-        /*percorre a agencia, e para cada posição, multiplica pela posição correspondente no arranjo weight e armazena na variável  */
-
-        for ($cont = 0; sizeof($this->agency) != $cont ; $cont++) {
-            $this->temp = $this->temp  + (int)$this->weight[$cont1] * (int)$this->agency[$cont];
-            $cont1 = $cont1 + 1;
-        }
-
-        for ($cont = 0 ; $cont != sizeof($this->account) ; $cont++) {
-            $this->temp =$this->temp  + (int)$this->weight[$cont1] * (int)$this->account[$cont];
-            $cont1 = $cont1 + 1;
-        }
-
-        $this->temp = $this->temp  % 11;
-        $Digit = $this->account[6];
-
         if ($this->account == '0000000000000' || $this->account == '1111111111111' || $this->account == '2222222222222' || $this->account == '3333333333333' || $this->account == '4444444444444' ||
             $this->account == '5555555555555' || $this->account == '6666666666666' || $this->account == '7777777777777' || $this->account == '8888888888888' || $this->account == '9999999999999' ){
             return false;
         }
+
         for ($cont = 0 ; $cont < sizeof($this->account) ; $cont++){
-             if (ord($this->account[$cont]) < 48 || ord($this->account[$cont]) > 57) {
-              return false;
+            if (ord($this->account[$cont]) < 48 || ord($this->account[$cont]) > 57) {
+                return false;
             }
+        }
+
+        $cont1 = 0;
+        echo $this->account . 'Essa e a conta <BR>';
+        echo $this->agency . 'Essa e a Agencia <BR>';
+
+        /*percorre a agencia, e para cada posição, multiplica pela posição correspondente no arranjo weight e armazena na variável  */
+
+        for ($cont = 0;$cont != 4 ; $cont++) {
+            echo $cont1 . 'contador da agencia <BR>'.$this->agency[$cont].'<br>'. 'peso'. $this->weight[$cont1].'<br>'.'<br>';
+            $this->temp = $this->temp  + (int)$this->weight[$cont1] * (int)$this->agency[$cont];
+            echo $this->temp . "memoria temporaria <BR>";
+            $cont1 = $cont1 + 1;
+        }
+
+        $this->account = str_replace('-','',$this->account);
+        $this->account = str_replace('.','',$this->account);
+        $this->account = str_replace('/','',$this->account);
+        $this->account = str_replace(' ', '', $this->account);
+
+        for ($cont = 0 ; $cont != 6 ; $cont++) {
+            echo $cont1 . 'contador da acc <BR>'.$this->account[$cont].'<br>'. 'peso'. $this->weight[$cont1].'<br>'.'<br>';
+            $this->temp =$this->temp  + (int)$this->weight[$cont1] * (int)$this->account[$cont];
+
+            echo $this->temp . "memoria temporaria <BR>";
+            $cont1 = $cont1 + 1;
+        }
+
+        $this->temp = $this->temp  % 11;
+        echo $this->temp . 'digito verificador <BR>';
+        $Digit = $this->account[6];
+
+        if ($this->temp == 10){
+            $this->temp = 0;
         }
 
         if ($Digit != $this->temp)
