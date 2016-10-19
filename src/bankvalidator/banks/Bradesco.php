@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 
-namespace banks;
+namespace bankvalidator\banks;
 
 use bankvalidator\Bank;
 
@@ -41,7 +41,7 @@ Class Bradesco extends Bank {
      */
     public function getAccountFormatted():string {
 
-        $accountNumber = str_split($this->toInt($this->account));
+        $accountNumber = str_split((string)($this->toInt($this->account)));
 
 
         $format = ' ';
@@ -68,7 +68,7 @@ Class Bradesco extends Bank {
      */
     public function getAgencyFormatted():string {
 
-        $agencyformat = str_split($this->toInt($this->agency));
+        $agencyformat = str_split((string)($this->toInt($this->agency)));
 
         $x = count($agencyformat);
         $format = '';
@@ -88,7 +88,7 @@ Class Bradesco extends Bank {
     * @return string
     */
     public function getFormatted():string  {
-    return (getAgencyFormatted() . ' ' . getAccountFormatted());
+        return ($this->getAgencyFormatted().$this->getAccountFormatted());
     }
 
     /**
@@ -115,7 +115,7 @@ Class Bradesco extends Bank {
 
         if ($this->checkSize()) {
 
-            $agencyformat = str_split($this->toInt($this->agency));
+            $agencyformat = str_split((string)($this->toInt($this->agency)));
             $values = array(5, 4, 3, 2);
             $sum = 0;
             $cont = 0;
