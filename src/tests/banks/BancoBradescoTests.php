@@ -8,6 +8,7 @@
 
 namespace test\banks;
 use bankvalidator\banks\Bradesco;
+use tests\BankTest;
 
 
 class Test extends \PHPUnit_Framework_TestCase
@@ -17,21 +18,37 @@ class Test extends \PHPUnit_Framework_TestCase
     /**
      * @param string $agencia
      * @param string $conta
-     * @param bool $esperado
+     * @param bool $expected
      *
-     * @dataProvider providerValidateAgency
+     * @dataProvider providerValidateAgencyAndAccount
      */
-    public function testValidateAgency(string $agencia, string $conta,bool $esperado) {
-        $obj1 = new Bradesco($agencia, $conta);
-        $this->assertEquals($obj1->validateAgency(), $esperado);
-
+    public function testValidadeAccount(string $agencia, string $conta, bool $expected) {
+        $objAcc = new Bradesco($agencia, $conta);
+        $this->assertEquals($objAcc->validateAccount(), $expected);
     }
 
 
-    public function providerValidateAgency(){
+    /**
+     * @param string $agencia
+     * @param string $conta
+     * @param bool $esperado
+     *
+     * @dataProvider providerValidateAgencyAndAccount
+     */
+    public function testValidateAgency(string $agencia, string $conta,bool $expected) {
+        $obj1 = new Bradesco($agencia, $conta);
+        $this->assertEquals($obj1->validateAgency(), $expected);
+
+    }
+
+    /**
+     * @return array
+     * provider para os testes de agencia e conta
+     */
+    public function providerValidateAgencyAndAccount(){
         return [
-            ['0635-1', '20173-1', true],
-            ['635-1', '0020173-1', true],
+            ['0635-1', '0020173-1', true],
+            ['6299-5', '337707-5', true],
             ['2309-4', '1637212-9', true]
         ];
     }
@@ -44,9 +61,9 @@ class Test extends \PHPUnit_Framework_TestCase
      * @dataProvider providerGetFormatted
      *
      */
-    public function testGetFormatted(string $agencia, string $conta, string $esperado){
+    public function testGetFormatted(string $agencia, string $conta, string $expected){
         $obj1 = new Bradesco($agencia, $conta);
-        $this->assertEquals($obj1->getFormatted(), $esperado);
+        $this->assertEquals($obj1->getFormatted(), $expected);
     }
 
     /**

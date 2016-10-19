@@ -157,6 +157,7 @@ Class Bradesco extends Bank {
             $sum = 0;
             $counter = 0;
 
+            $this->account = str_split($this->account);
 
             $position = 8 - count($this->account);
 
