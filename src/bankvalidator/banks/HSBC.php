@@ -43,15 +43,11 @@ class HSBC extends Bank
         }
 
         $cont1 = 0;
-        echo $this->account . 'Essa e a conta <BR>';
-        echo $this->agency . 'Essa e a Agencia <BR>';
 
         /*percorre a agencia, e para cada posição, multiplica pela posição correspondente no arranjo weight e armazena na variável  */
 
         for ($cont = 0;$cont != 4 ; $cont++) {
-            echo $cont1 . 'contador da agencia <BR>'.$this->agency[$cont].'<br>'. 'peso'. $this->weight[$cont1].'<br>'.'<br>';
             $this->temp = $this->temp  + (int)$this->weight[$cont1] * (int)$this->agency[$cont];
-            echo $this->temp . "memoria temporaria <BR>";
             $cont1 = $cont1 + 1;
         }
 
@@ -61,15 +57,12 @@ class HSBC extends Bank
         $this->account = str_replace(' ', '', $this->account);
 
         for ($cont = 0 ; $cont != 6 ; $cont++) {
-            echo $cont1 . 'contador da acc <BR>'.$this->account[$cont].'<br>'. 'peso'. $this->weight[$cont1].'<br>'.'<br>';
             $this->temp =$this->temp  + (int)$this->weight[$cont1] * (int)$this->account[$cont];
 
-            echo $this->temp . "memoria temporaria <BR>";
             $cont1 = $cont1 + 1;
         }
 
         $this->temp = $this->temp  % 11;
-        echo $this->temp . 'digito verificador <BR>';
         $Digit = $this->account[6];
 
         if ($this->temp == 10){
