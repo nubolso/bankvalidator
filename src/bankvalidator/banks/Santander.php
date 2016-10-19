@@ -14,41 +14,11 @@ class Santander extends Bank{
         parent::__construct($agency,$account);
     }
     public function Validate():bool{
-        $agencylocal = $this->getAgencyToInt();
-        $accountlocal = $this->getAccountToInt();
-
-        $add =  4 - strlen((string)$agencylocal);
-        if ($add < 0){
-          return false;
-        }
-        $count = 0;
-        while ($add != $count){
-            $agencylocal = '0'.(string)$agencylocal;
-            $count = $count + 1;
-        }
-
-        $add =  10 - strlen((string)$accountlocal);
-        if ($add < 0){
-            return false;
-        }
-        $count = 0;
-        while ($add != $count){
-            $accountlocal = '0'.(string)$accountlocal;
-            $count = $count + 1;
-        }
-
+        $agencylocal = $this->agency;
+        $accountlocal = $this->account;
+        $accountlocal = str_replace('-','',$accountlocal);
         $account = $agencylocal.$accountlocal;
         $sum = 0;
-        $add =  13 - strlen($account);
-        $count = 0;
-        if ($add < 0){
-            return false;
-        }
-        while ($add != $count){
-            $account = '0'.$account;
-            $count = $count + 1;
-        }
-
         $temporary = 0;
         while ($temporary != 13){
             if (ord($account[$temporary]) < 48 || ord($account[$temporary]) > 57)
