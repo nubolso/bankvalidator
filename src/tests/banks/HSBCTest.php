@@ -13,13 +13,20 @@ class HSBCTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @dataProvider providerTestConstruct
+     * @dataProvider providerTestConstructInValid
      */
 
-    public function testConstruct($agency, $account)
+    public function testConstructInValid($agency, $account)
     {
         $valueObj1 = new HSBC($agency,$account);
         $this->assertEquals($valueObj1->Validate(),false);
+    }
+
+    public function testConstructorValid ($agency,$account)
+    {
+        $valueObj1 = new HSBC($agency,$account);
+        $this->assertEquals($valueObj1->Validate(),true);
+
     }
 
     /**
@@ -32,6 +39,23 @@ class HSBCTest extends \PHPUnit_Framework_TestCase
             ['34234' ,'34254'],
 
         ];
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function contasProviderInvalid()
+    {
+        return array(
+            array('0189','01017410-0'),
+            array('0926','43756391-7'),
+            array('0926','437563917'),
+            array('0189','01017417-9'),
+            array('4292','46698597-3'),
+            array('$$+9','53402509-2'),
+            array('XXXX','XXXXXXXX-X'),
+
+        );
     }
 
     /**
