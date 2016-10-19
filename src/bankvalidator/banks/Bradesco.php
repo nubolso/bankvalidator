@@ -104,8 +104,6 @@ Class Bradesco extends Bank {
         }
         return true;
     }
-
-
     /**
      *
      * Verifica se a agência é valida, de acordo com o dígito verificador
