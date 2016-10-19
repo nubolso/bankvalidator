@@ -26,6 +26,9 @@ class HSBC extends Bank
         parent::__construct($agency, $account);
     }
 
+    /**
+     * @return bool
+     */
     public function validate():bool{
 
         $cont = 0;
@@ -50,7 +53,8 @@ class HSBC extends Bank
         $this->temp = $this->temp  % 11;
         $Digit = $this->account[6];
 
-echo $this->account;
+        echo $this->account;
+
         if ($this->account == '0000000000000' || $this->account == '1111111111111' || $this->account == '2222222222222' || $this->account == '3333333333333' || $this->account == '4444444444444' ||
             $this->account == '5555555555555' || $this->account == '6666666666666' || $this->account == '7777777777777' || $this->account == '8888888888888' || $this->account == '9999999999999' ){
             return false;
@@ -66,10 +70,16 @@ echo $this->account;
         }
     }
 
+    /**
+     * @return string
+     */
     public function getAccountFormatted():string{
         return $this->agency;
     }
 
+    /**
+     * @return string
+     */
     public function getAgencyFormatted():string{
         return $this->agency;
     }
