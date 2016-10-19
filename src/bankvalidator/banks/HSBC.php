@@ -22,42 +22,41 @@ class HSBC extends Bank
 
     public function __construct (string $agency ,string $account)
     {
-        $this->weight = array(8,9,2,3,4,5,6,7,3,9);
+        $this->weight = array(8,9,2,3,4,5,6,7,8,9);
         parent::__construct($agency, $account);
     }
 
     /**
      * @return bool
      */
-    public function validate():bool{
+    public function validate():bool
+    {
 
-        $cont = 0;
         $cont1 = 0;
 
         /*percorre a agencia, e para cada posição, multiplica pela posição correspondente no arranjo weight e armazena na variável  */
 
-        while (sizeof($this->agency) != $cont1) {
-            $this->temp = $this->temp  + (int)$this->weight[$cont1] * (int)$this->agency[$cont1];
-            echo $this->weight[$cont1];
+        for ($cont = 0; sizeof($this->agency) != $cont ; $cont++) {
+            $this->temp = $this->temp  + (int)$this->weight[$cont1] * (int)$this->agency[$cont];
             $cont1 = $cont1 + 1;
         }
 
-        $cont = 0;
-
-        while ($cont != sizeof($this->account)) {
+        for ($cont = 0 ; $cont != sizeof($this->account) ; $cont++) {
             $this->temp =$this->temp  + (int)$this->weight[$cont1] * (int)$this->account[$cont];
             $cont1 = $cont1 + 1;
-            $cont = $cont +1;
         }
 
         $this->temp = $this->temp  % 11;
         $Digit = $this->account[6];
 
-        echo $this->account;
-
         if ($this->account == '0000000000000' || $this->account == '1111111111111' || $this->account == '2222222222222' || $this->account == '3333333333333' || $this->account == '4444444444444' ||
             $this->account == '5555555555555' || $this->account == '6666666666666' || $this->account == '7777777777777' || $this->account == '8888888888888' || $this->account == '9999999999999' ){
             return false;
+        }
+        for ($cont = 0 ; $cont < sizeof($this->account) ; $cont++){
+             if (ord($this->account[$cont]) < 48 || ord($this->account[$cont]) > 57) {
+              return false;
+            }
         }
 
         if ($Digit != $this->temp)
