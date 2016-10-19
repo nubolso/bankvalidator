@@ -52,11 +52,11 @@ class SantanderTest extends \PHPUnit_Framework_TestCase
     public function contasProviderValid()
     {
         return array(
-            array('0189','01017410-0'),
-            array('0926','43756391-7'),
-            array('0926','437563917'),
-            array('0189','01017417-9'),
-            array('4292','46698597-3'),
+            array('0499','743645-2'),
+            array('2400','746805-6'),
+            array('0813','681161-8'),
+            array('1116','851521-6'),
+            array('0499','785993-0'),
         );
     }
 }
