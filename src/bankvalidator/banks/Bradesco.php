@@ -94,11 +94,12 @@ Class Bradesco extends Bank {
     /**
      *
      * Metodo que verifica se a quantidade de numeros digitadas foi superior ao numero máximo de dígitos
-     *
+     * @param string $tocheck
+     * @param integer $type
      * @return bool
      */
-    private function checkSize():bool{
-        if (count($this->account) > 8 or count($this->agency) > 5){
+    private function checkSize(string $tocheck, int $type):bool{
+        if (((count($tocheck) > 8) and (type == 1)) or (count($tocheck) > 5) and (type == 0))) {
             return false;
         }
         return true;
@@ -113,9 +114,10 @@ Class Bradesco extends Bank {
      */
     public function validateAgency():bool {
 
-        if ($this->checkSize()) {
+        $agencyformat = str_split((string)($this->toInt($this->agency)));
+        
+        if ($this->checkSize($agencyformat, 0)) {
 
-            $agencyformat = str_split((string)($this->toInt($this->agency)));
             $values = array(5, 4, 3, 2);
             $sum = 0;
             $cont = 0;
@@ -152,28 +154,30 @@ Class Bradesco extends Bank {
      */
     public function validateAccount():bool
     {
+        
+        $accountformat = str_split((string)($this->toInt($this->account)));
 
-        if ($this->checkSize()) {
+        if ($this->checkSize($accountformat, 1)) {
             $sum = 0;
             $counter = 0;
 
 
-            $position = 8 - count($this->account);
+            $position = 8 - count($accountformat);
 
             $pesos = array(2, 7, 6, 5, 4, 3, 2);
             while ($position < 7) {
-                $sum = $sum + ($pesos[$position] * $this->account[$counter]);
+                $sum = $sum + ($pesos[$position] * $accountformat[$counter]);
                 $counter++;
                 $position++;
             }
             $mod = $sum % 11;
             if ($mod == 0 || $mod == 1) {
-                if ($this->account[$counter] == 0) {
+                if ($accountformat[$counter] == 0) {
                     return true;
                 }
             } else {
                 $mod = 11 - $mod;
-                if ($mod == $this->account[$counter]) {
+                if ($mod == $accountformat[$counter]) {
                     return true;
                 }
             }
