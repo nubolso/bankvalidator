@@ -12,39 +12,13 @@ use bankvalidator\banks\HSBC;
 class HSBCTest extends \PHPUnit_Framework_TestCase
 {
 
-    /**
-     * @dataProvider providerTestConstructInValid
-     */
-
-    public function testConstructInValid($agency, $account)
+    public function testConstructInValid()
     {
-        $valueObj1 = new HSBC($agency,$account);
-        $this->assertEquals($valueObj1->Validate(),false);
+        $valueObj1 = new HSBC('0189','01017410-0');
+        $this->assertEquals($valueObj1->validate(),false);
     }
 
-    public function testConstructorValid ($agency,$account)
-    {
-        $valueObj1 = new HSBC($agency,$account);
-        $this->assertEquals($valueObj1->Validate(),true);
-
-    }
-
-    /**
-     * @dataProvider providerTestConstruct
-     */
-
-    public function providerTestConstruct() {
-        return [
-            ['0416' , '0141'],
-            ['34234' ,'34254'],
-
-        ];
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public function contasProviderInvalid()
+    public function providerTestConstructInValid()
     {
         return array(
             array('0189','01017410-0'),
@@ -54,18 +28,64 @@ class HSBCTest extends \PHPUnit_Framework_TestCase
             array('4292','46698597-3'),
             array('$$+9','53402509-2'),
             array('XXXX','XXXXXXXX-X'),
-
         );
     }
 
-    /**
-     * @dataProvider providertestvalidatefalse
-     */
-
-    public function testvalidatefalse()
+    public function testConstructorValid ()
     {
-        $test = new HSBC('0416', '01208-2');
-        $this->assertEquals($test->validate(), false);
+        $valueObj1 = new HSBC('0499','743645-2');
+        $this->assertEquals($valueObj1->validate(),true);
+
     }
+
+    public function providerTestConstructValid() {
+        return [
+			array('0499','743645-2'),
+            array('2400','746805-6'),
+            array('0813','681161-8'),
+            array('1116','851521-6'),
+            array('0499','785993-0'),
+
+        ];
+    }
+
+    public function getAgencyFormatted (string $agency ,string  $account){
+        $valueObj1 = new HSBC($agency , $account);
+        $agency = str_replace(' ','',$agency);
+        $agency = str_replace('.','',$agency);
+        $agency = str_replace('/','',$agency);
+        $this->assertEquals($valueObj1->getAgencyFormatted() , $agency);
+    }
+
+    public function providerGetAgencyFormatted()
+    {
+        return [
+            array('0499','743645 2'),
+            array('2400','746805/6'),
+            array('0813','681161/8'),
+            array('1116','851521-6'),
+            array('0499','785993.0'),
+            ];
+    }
+
+    public function getAccountFormatted (string $agency ,string  $account){
+        $valueObj1 = new HSBC($agency , $account);
+        $account = str_replace(' ','-',$account);
+        $account = str_replace('.','-',$account);
+        $account = str_replace('/','-',$account);
+        $this->assertEquals($valueObj1->getAccountFormatted() , $account);
+    }
+
+    public function providerGetAccountFormatted()
+    {
+        return [
+            array('0499','743645 2'),
+            array('2400','746805/6'),
+            array('0813','681161/8'),
+            array('1116','851521-6'),
+            array('0499','785993.0'),
+        ];
+    }
+
 }
 

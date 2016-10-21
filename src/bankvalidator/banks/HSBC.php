@@ -83,13 +83,21 @@ class HSBC extends Bank
      * @return string
      */
     public function getAccountFormatted():string{
-        return $this->agency;
+        $acc = $this->account;
+        $acc = str_replace(' ','-',$acc);
+        $acc = str_replace('.','-',$acc);
+        $acc = str_replace('/','-',$acc);
+        return $acc;
     }
 
     /**
      * @return string
      */
     public function getAgencyFormatted():string{
-        return $this->agency;
+        $agency = $this->agency;
+        $agency = str_replace(' ','-',$agency);
+        $agency = str_replace('.','-',$agency);
+        $agency = str_replace('/','-',$agency);
+        return $agency;
     }
 }
