@@ -6,8 +6,8 @@
  * Time: 13:58
  */
 namespace test\banks;
-use bankvalidator\banks\Bancobrasil;
-class BancobrasilTest extends \PHPUnit_Framework_TestCase
+use bankvalidator\banks\BancoBrasil;
+class BancoBrasilTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * test construct
