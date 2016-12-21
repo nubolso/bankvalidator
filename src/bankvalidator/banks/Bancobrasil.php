@@ -139,4 +139,22 @@ class BancoBrasil extends Bank
         }
         return false;
     }
+    public function limitedNumbersAgency(string $Agency):bool
+    {
+        $number = $this->numberDigits($this->formatted($Agency));
+        if ($number > 5) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public function limitedNumbersAccount(string $Account):bool
+    {
+        $number = $this->numberDigits($this->formatted($Account));
+        if ($number > 12) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

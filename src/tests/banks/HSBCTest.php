@@ -49,14 +49,6 @@ class HSBCTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function getAgencyFormatted (string $agency ,string  $account){
-        $valueObj1 = new HSBC($agency , $account);
-        $agency = str_replace(' ','',$agency);
-        $agency = str_replace('.','',$agency);
-        $agency = str_replace('/','',$agency);
-        $this->assertEquals($valueObj1->getAgencyFormatted() , $agency);
-    }
-
     public function providerGetAgencyFormatted()
     {
         return [
@@ -66,14 +58,6 @@ class HSBCTest extends \PHPUnit_Framework_TestCase
             array('1116','851521-6'),
             array('0499','785993.0'),
             ];
-    }
-
-    public function getAccountFormatted (string $agency ,string  $account){
-        $valueObj1 = new HSBC($agency , $account);
-        $account = str_replace(' ','-',$account);
-        $account = str_replace('.','-',$account);
-        $account = str_replace('/','-',$account);
-        $this->assertEquals($valueObj1->getAccountFormatted() , $account);
     }
 
     public function providerGetAccountFormatted()
