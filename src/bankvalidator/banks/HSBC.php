@@ -10,6 +10,12 @@ declare (strict_types=1);
 
 namespace bankvalidator\banks;
 use bankvalidator\Bank;
+
+/**
+ * Class HSBC
+ *
+ * @package bankvalidator\banks
+ */
 class HSBC extends Bank
 {
     protected $temp = 0;
@@ -51,11 +57,7 @@ class HSBC extends Bank
             $cont1 = $cont1 + 1;
         }
 
-        $this->account = str_replace('-','',$this->account);
-        $this->account = str_replace('.','',$this->account);
-        $this->account = str_replace('/','',$this->account);
-        $this->account = str_replace(' ', '', $this->account);
-        
+        $this->account = $this->toInt($this->account);
         for ($cont = 0 ; $cont != 6 ; $cont++) {
             $this->temp =$this->temp  + (int)$this->weight[$cont1] * (int)$this->account[$cont];
 
@@ -83,10 +85,10 @@ class HSBC extends Bank
      * @return string
      */
     public function getAccountFormatted():string{
-        $acc = $this->account;
-        $acc = str_replace(' ','-',$acc);
-        $acc = str_replace('.','-',$acc);
-        $acc = str_replace('/','-',$acc);
+        $acc = (string)$this->account;
+        $seven = $acc[6];
+        $acc[6] = '-';
+        $acc[7] = $seven;
         return $acc;
     }
 
@@ -94,10 +96,7 @@ class HSBC extends Bank
      * @return string
      */
     public function getAgencyFormatted():string{
-        $agency = $this->agency;
-        $agency = str_replace(' ','-',$agency);
-        $agency = str_replace('.','-',$agency);
-        $agency = str_replace('/','-',$agency);
+        $agency = (string)$this->agency;
         return $agency;
     }
 }
