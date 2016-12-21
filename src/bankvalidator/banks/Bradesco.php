@@ -41,7 +41,7 @@ Class Bradesco extends Bank {
      */
     public function getAccountFormatted():string {
         
-        return $this->toFormat($this->accountNumber);
+        return $this->toFormatted($this->account);
     }
 
 
@@ -53,35 +53,9 @@ Class Bradesco extends Bank {
     public function getAgencyFormatted():string {
 
         
-        return $this->toFormat($this->agency);
+        return $this->toFormatted($this->agency);
     }
-    
-    /**
-     *
-     * Converte o que for enviado por referência para string, adicionando o ' - '.
-     * @return string
-     */
-    protected function toFormat(string $Number):string {
-        
-        $Number = str_split((string)($this->toInt($Number)));
 
-
-        $format = ' ';
-        $x = count($Number);
-        
-        foreach ($Number as $y) {
-
-            if ($x == 1) {
-                $format = $format . '-';
-            }
-            $format = $format . $y;
-            $x--;
-        }
-        
-
-        return $format;
-        
-        }
 
     /**
      *
@@ -96,6 +70,8 @@ Class Bradesco extends Bank {
         }
         return true;
     }
+
+
     /**
      *
      * Verifica se a agência é valida, de acordo com o dígito verificador
