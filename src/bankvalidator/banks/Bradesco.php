@@ -40,24 +40,8 @@ Class Bradesco extends Bank {
      * @return string
      */
     public function getAccountFormatted():string {
-
-        $accountNumber = str_split((string)($this->toInt($this->account)));
-
-
-        $format = ' ';
-        $x = count($accountNumber);
         
-        foreach ($accountNumber as $y) {
-
-            if ($x == 1) {
-                $format = $format . '-';
-            }
-            $format = $format . $y;
-            $x--;
-        }
-        
-
-        return $format;
+        return $this->toFormat($this->accountNumber);
     }
 
 
@@ -68,11 +52,24 @@ Class Bradesco extends Bank {
      */
     public function getAgencyFormatted():string {
 
-        $agencyformat = str_split((string)($this->toInt($this->agency)));
+        
+        return $this->toFormat($this->agency);
+    }
+    
+    /**
+     *
+     * Converte o que for enviado por referência para string, adicionando o ' - '.
+     * @return string
+     */
+    protected function toFormat(string $Number):string {
+        
+        $Number = str_split((string)($this->toInt($Number)));
 
-        $x = count($agencyformat);
-        $format = '';
-        foreach ($agencyformat as $y) {
+
+        $format = ' ';
+        $x = count($Number);
+        
+        foreach ($Number as $y) {
 
             if ($x == 1) {
                 $format = $format . '-';
@@ -80,8 +77,11 @@ Class Bradesco extends Bank {
             $format = $format . $y;
             $x--;
         }
+        
+
         return $format;
-    }
+        
+        }
 
     /**
      *
