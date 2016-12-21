@@ -16,7 +16,6 @@ class SantanderTest extends \PHPUnit_Framework_TestCase
     public function testConstructorInValid ($agency,$account)
     {
         $valueObj1 = new Santander($agency,$account);
-      //  $test = $valueObj1->getAgencyToInt();
         $this->assertEquals($valueObj1->Validate(),false);
     }
 
@@ -26,7 +25,6 @@ class SantanderTest extends \PHPUnit_Framework_TestCase
     public function testConstructorValid ($agency,$account)
     {
         $valueObj1 = new Santander($agency,$account);
-      //  $valueObj1->getAccountToInt();
         $this->assertEquals($valueObj1->Validate(),true);
 
     }
@@ -59,4 +57,37 @@ class SantanderTest extends \PHPUnit_Framework_TestCase
             array('4292','46698597-3'),
         );
     }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function accountProviderValid()
+    {
+        return array(
+            array('0189','01017410-0','01017410-0'),
+            array('0926','43756391-7','43756391-7'),
+            array('0926','437563917','43756391-7'),
+            array('0189','01017417-9','01017417-9'),
+            array('4292','46698597-3','46698597-3'),
+        );
+    }
+    /**
+     * @dataProvider accountProviderValid
+     */
+    public function testgetAccountFormatted($agency,$account, $result){
+
+        $valueObj1 = new Santander($agency,$account);
+        $this->assertEquals($valueObj1->getAccountFormatted(),$result);
+    }
+    /**
+     * @dataProvider contasProviderValid
+     */
+    public function testgetAgencyFormatted($agency,$account){
+
+        $valueObj1 = new Santander($agency,$account);
+        $this->assertEquals($valueObj1->getAgencyFormatted(),$agency);
+    }
+
+
+
 }

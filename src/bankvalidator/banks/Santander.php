@@ -1,4 +1,6 @@
 <?php
+/*
+ * IFG 2016, alunos: Fernando Augusto e Matheus Dias*/
 
 declare(strict_types=1);
 
@@ -6,13 +8,30 @@ namespace bankvalidator\banks;
 
 use bankvalidator\Bank;
 
-class Santander extends Bank{
 
+/**
+ *
+ * Classe validadora de contas Santander
+ *
+ * Class Santander
+ * @package Validator\Bank
+ *
+ */class Santander extends Bank{
+    /**
+     * Santander constructor, cria um objeto com a finalidade de atribuir os valores de agencia e conta passados por parametros.
+     * @param string $agency
+     * @param string $account
+     */
     public function __construct($agency,$account)
     {
         $this->weight = array(9,7,3,1,9,7,1,3,1,9,7,3);
         parent::__construct($agency,$account);
     }
+
+    /**
+     * Validate, validador de contas e agencias de banco Santander
+     * @return bool
+     */
     public function Validate():bool{
         $agencylocal = $this->agency;
         $accountlocal = $this->account;
@@ -60,13 +79,23 @@ class Santander extends Bank{
         }
     }
 
+    /**
+     * getAccountFormatted formata número da conta.
+     * @return string
+     */
     public function getAccountFormatted():string{
-        $Bank = $this->getAccountToInt();
+        $Bank = $this->account;
+        $Bank = str_replace('-','',$Bank);
         return $Bank[0].$Bank[1].$Bank[2].$Bank[3].$Bank[4].$Bank[5].$Bank[6].$Bank[7].'-'.$Bank[8];
-
     }
+
+    /**
+     * getAgengyFormatted formata o número da agencia.
+     * @return string
+     */
     public function getAgencyFormatted():string{
-        $Bank = $this->getAgencyToInt();
+        $Bank = $this->agency;
+        $Bank = str_replace('-','',$Bank);
         return $Bank[0].$Bank[1].$Bank[2].$Bank[3];
     }
 
