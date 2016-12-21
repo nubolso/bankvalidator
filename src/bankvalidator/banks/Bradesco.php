@@ -51,7 +51,6 @@ Class Bradesco extends Bank {
      * @return string
      */
     public function getAgencyFormatted():string {
-
         
         return $this->toFormatted($this->agency);
     }
