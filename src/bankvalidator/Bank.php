@@ -93,6 +93,63 @@ abstract class Bank{
         }
         return $frags;
     }
+
+
+    /**
+     * formata a string com apenas números
+     * @param string $account or $agency.
+     * @return int com apenas números e substituindo 'x' por '0', ignora outros caracteres.
+     */
+    protected function formatted(string $account):int
+    {
+        $account = strtolower($account);
+        $tmp2 = array();
+        $tmp1 = str_split($account);
+        $i = 0;
+        foreach($tmp1 as $char){
+            //função ord retorna o número ASCII do caractere
+            if((ord($char) >= 48 AND ord($char) <= 57)){
+                $tmp2[$i] = $char;
+                $i++;
+            }
+            if(ord($char) == 120){
+                $tmp2[$i] = '0';
+                $i++;
+            }
+        }
+        $account = implode("", $tmp2);
+        return (int)$account;
+    }
+    /**
+     * formata os números da conta e agencia e retorna neste padrão xxxx-x
+     * @param string $number
+     * @return string
+     */
+    protected function getFormatted(string $number):string
+    {
+        $account1 = (string)$this->formatted($number);
+        $account1 = str_split($account1);
+        $account2 = array();
+        $size = count($account1);
+        $i = 0;
+        $j = 0;
+        while($i < $size){
+            if($j == $size - 1){
+                $account2[$j] = '-';
+                $j++;
+            }
+            else{
+                $account2[$j] = $account1[$i];
+                $i++;
+                $j++;
+            }
+        }
+        if($account2[$size - 1] == '0'){
+            $account2[$size - 1] = 'x';
+        }
+        $account2 = implode($account2);
+        return $account2;
+    }
     abstract public function validate():bool;
     abstract public function getAccountFormatted():string;
     abstract public function getAgencyFormatted():string;
