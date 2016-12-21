@@ -36,8 +36,6 @@ class Test extends \PHPUnit_Framework_TestCase
         $objAcc = new Bradesco($agencia, $conta);
         $this->assertEquals($objAcc->validateAccount(), $expected);
     }
-
-    
     /**
      * @return array
      * tests provider
