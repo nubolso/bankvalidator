@@ -8,8 +8,9 @@
 
 namespace tests;
 
-
+/*
 class BankTest extends \PHPUnit_Framework_TestCase
 {
 
 }
+*/

@@ -85,5 +85,4 @@ class Test extends \PHPUnit_Framework_TestCase
             ['0635-7', '0020173-9', false],
         ];
     }
-
 }
