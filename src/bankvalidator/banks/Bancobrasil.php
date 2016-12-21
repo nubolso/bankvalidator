@@ -135,7 +135,7 @@ class BancoBrasil extends Bank
      * @param string $account or $agency.
      * @return bool 1 = $account or $agency corretos, 0 = $account or $agency incorretos.
      */
-    public function validateMultiply(string $account):bool
+    protected function validateMultiply(string $account):bool
     {
         $number = $this->formatted($account);
         $parameters = pow(10, ($this->numberDigits($number) - 1));
@@ -174,5 +174,24 @@ class BancoBrasil extends Bank
             return true;
         }
         return false;
+    }
+    public function limitedNumbersAgency(string $Agency):bool
+    {
+        $number = $this->numberDigits($this->formatted($Agency));
+        if ($number > 5) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+        public function limitedNumbersAccount(string $Account):bool
+        {
+            $number = $this->numberDigits($this->formatted($Account));
+            if ($number > 5) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 }
