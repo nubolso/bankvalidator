@@ -82,14 +82,6 @@ Class Bradesco extends Bank {
         }
         return $format;
     }
-    
-    /**
-    * Converte a agência e a conta para string.
-    * @return string
-    */
-    public function getFormatted():string  {
-        return ($this->getAgencyFormatted().$this->getAccountFormatted());
-    }
 
     /**
      *
