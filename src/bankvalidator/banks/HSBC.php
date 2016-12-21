@@ -55,7 +55,7 @@ class HSBC extends Bank
         $this->account = str_replace('.','',$this->account);
         $this->account = str_replace('/','',$this->account);
         $this->account = str_replace(' ', '', $this->account);
-
+        
         for ($cont = 0 ; $cont != 6 ; $cont++) {
             $this->temp =$this->temp  + (int)$this->weight[$cont1] * (int)$this->account[$cont];
 
