@@ -113,44 +113,68 @@ class BancoBrasil extends Bank
     {
         return $this->zeroLeft($this->agency);
     }
-    /**
-     * valida o número com digito verificador
-     * @param string $account or $agency.
-     * @return bool 1 = $account or $agency corretos, 0 = $account or $agency incorretos.
-     */
 
+    /**
+     * valida agencia
+     * @return bool
+     */
     protected function validateAgency():bool{
+        if(!$this->limitedNumbersAgency()){
+            return false;
+        }
         if($this->validateMultiply($this->agency)){
             return true;
         }
         return false;
     }
+
+    /**
+     * valida conta
+     * @return bool
+     */
     protected function validateAccount():bool{
+        if(!$this->limitedNumbersAccount()){
+            return false;
+        }
         if($this->validateMultiply($this->account) ){
             return true;
         }
         return false;
     }
+
+    /**
+     * valida conta e agencia
+     * @return bool
+     */
     public function validate():bool
     {
-        if($this->validateAccount() == true AND $this->validateAgency() == true)
+        if($this->validateAccount() AND $this->validateAgency())
         {
             return true;
         }
         return false;
     }
-    public function limitedNumbersAgency(string $Agency):bool
+    /**
+     * retorna true caso a quantidade de digitos maxima seja menor igual a 5
+     * @return bool
+     */
+    private function limitedNumbersAgency():bool
     {
-        $number = $this->numberDigits($this->formatted($Agency));
+        $number = $this->numberDigits($this->formatted($this->agency));
         if ($number > 5) {
             return false;
         } else {
             return true;
         }
     }
-    public function limitedNumbersAccount(string $Account):bool
+
+    /**
+     * retorna true caso a quantidade de digitos maxima seja menor igual a 12
+     * @return bool
+     */
+    private function limitedNumbersAccount():bool
     {
-        $number = $this->numberDigits($this->formatted($Account));
+        $number = $this->numberDigits($this->formatted($this->account));
         if ($number > 12) {
             return false;
         } else {
