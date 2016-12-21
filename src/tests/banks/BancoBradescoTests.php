@@ -37,6 +37,7 @@ class Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($objAcc->validateAccount(), $expected);
     }
 
+    
     /**
      * @return array
      * tests provider
