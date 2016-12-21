@@ -15,6 +15,41 @@ class BancoBrasil extends Bank
         parent::__construct($agency, $account);
     }
 
+    /**
+     * valida o número da conta ou agencia no mod 11 check digit
+     * @param string $accountAgency
+     * @return bool
+     */
+    protected function validateMultiply(string $accountAgency):bool
+    {
+        $number = $this->formatted($accountAgency);
+        $parameters = pow(10, ($this->numberDigits($number) - 1));
+        $md11 = $this->numberDigits($number);
+        $size = $this->numberDigits($number);
+        $sum = 0;
+        for ($i = 0; $i < $size; $i++) {
+            if ($i == ($size - 1)) {
+                $resto = $sum % 11;
+                $resto = 11 - $resto;
+                if ($resto == 10 || $resto == 11) {
+                    $resto = 0;
+                }
+                if ($number == $resto) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            $tmp = $number % $parameters;
+            $dig = ($number - $tmp) / $parameters;
+            $sum = $sum + ($dig * $md11);
+            $md11 = $md11 - 1;
+            $number = $tmp;
+            $parameters = $parameters / 10;
+        }
+        return false;
+    }
+
 
     /**
      * completa com zero(s) a esquerda caso o tenha.
@@ -84,14 +119,22 @@ class BancoBrasil extends Bank
      * @return bool 1 = $account or $agency corretos, 0 = $account or $agency incorretos.
      */
 
-    public function validateAgency():bool{
+    protected function validateAgency():bool{
         if($this->validateMultiply($this->agency)){
             return true;
         }
         return false;
     }
-    public function validateAccount():bool{
+    protected function validateAccount():bool{
         if($this->validateMultiply($this->account) ){
+            return true;
+        }
+        return false;
+    }
+    public function validate():bool
+    {
+        if($this->validateAccount() == true AND $this->validateAgency() == true)
+        {
             return true;
         }
         return false;

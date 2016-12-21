@@ -1,18 +1,39 @@
 <?php
 namespace bankvalidator;
+/**
+ * Abstract Class Bank
+ * @package bankvalidator
+ */
 abstract class Bank{
     public $agency;
 	public $account;
     protected $weight;
+
+    /**
+     * Bank constructor.
+     * @param string $agency
+     * @param string $account]
+     */
     function __construct(string $agency, string $account)
     {
         $this->agency = $agency;
         $this->account = $account;
     }
+
+    /**
+     * Converte a agência para inteiro.
+     * @return int
+     */
     public function getAgencyToInt():int{
 
         return $this->toInt($this->agency);
     }
+
+    /**
+     * Converte o que for passado por parâmetro para inteiro
+     * @param string $value
+     * @return int
+     */
 	protected function toInt(string $value):int{
 		$converted = str_replace('.','',$value);
         $converted = str_replace('-','',$converted);
@@ -20,10 +41,42 @@ abstract class Bank{
         $converted = str_replace(' ', '', $converted);
         return (int)$converted;
 	}
+
+    /**
+     *
+     * Converte o número da conta para inteiro.
+     *
+     * @return int
+     */
 	public function getAccountToInt():int{
 
         return $this->toInt($this->account);
     }
+
+    /**
+     *
+     * Converte o que for enviado por referência para string, adicionando o ' - '.
+     * @return string
+     */
+    protected function toFormatted(string $Number):string {
+
+        $Number = str_split((string)($this->toInt($Number)));
+
+        $format = ' ';
+        $x = count($Number);
+
+        foreach ($Number as $y) {
+
+            if ($x == 1) {
+                $format = $format . '-';
+            }
+            $format = $format . $y;
+            $x--;
+        }
+
+        return $format;
+    }
+
 	/**
     * conta o número de digitos
     * @param int $number
@@ -41,40 +94,7 @@ abstract class Bank{
         return $frags;
     }
 
-    /**
-     * valida o número da conta ou agencia no mod 11 check digit
-     * @param string $accountAgency
-     * @return bool
-     */
-    protected function validateMultiply(string $accountAgency):bool
-    {
-        $number = $this->formatted($accountAgency);
-        $parameters = pow(10, ($this->numberDigits($number) - 1));
-        $md11 = $this->numberDigits($number);
-        $size = $this->numberDigits($number);
-        $sum = 0;
-        for ($i = 0; $i < $size; $i++) {
-            if ($i == ($size - 1)) {
-                $resto = $sum % 11;
-                $resto = 11 - $resto;
-                if ($resto == 10 || $resto == 11) {
-                    $resto = 0;
-                }
-                if ($number == $resto) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            $tmp = $number % $parameters;
-            $dig = ($number - $tmp) / $parameters;
-            $sum = $sum + ($dig * $md11);
-            $md11 = $md11 - 1;
-            $number = $tmp;
-            $parameters = $parameters / 10;
-        }
-        return false;
-    }
+
     /**
      * formata a string com apenas números
      * @param string $account or $agency.
