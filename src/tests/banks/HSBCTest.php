@@ -12,9 +12,13 @@ use bankvalidator\banks\HSBC;
 class HSBCTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testConstructInValid()
+    /**
+     * @dataProvider providerTestConstructInValid
+     */
+
+    public function testConstructInValid($agency, $account)
     {
-        $valueObj1 = new HSBC('0189','01017410-0');
+        $valueObj1 = new HSBC($agency, $account);
         $this->assertEquals($valueObj1->validate(),false);
     }
 
@@ -31,43 +35,48 @@ class HSBCTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testConstructorValid ()
+    /**
+     * @dataProvider providerTestConstructValid
+     */
+
+    public function testConstructorValid($agency, $account)
     {
-        $valueObj1 = new HSBC('0499','743645-2');
-        $this->assertEquals($valueObj1->validate(),true);
+        $valueObj1 = new HSBC($agency, $account);
+        $this->assertEquals($valueObj1->validate(), false);
 
     }
 
     public function providerTestConstructValid() {
         return [
-			array('0499','743645-2'),
-            array('2400','746805-6'),
-            array('0813','681161-8'),
+			array('1116','261958-3'),
+            array('1970','750683-3'),
+            array('2400','567286-1'),
             array('1116','851521-6'),
             array('0499','785993-0'),
 
         ];
     }
 
-    public function providerGetAgencyFormatted()
-    {
-        return [
-            array('0499','743645 2'),
-            array('2400','746805/6'),
-            array('0813','681161/8'),
-            array('1116','851521-6'),
-            array('0499','785993.0'),
-            ];
+    /**
+     * @dataProvider providerGetAccountFormatted
+     */
+
+    public function testGetAccountFormatted($var) {
+
+        $obj = new HSBC('0000', $var);
+        $verification = $obj->getAccountFormatted();
+        $this->assertTrue($verification[7] == '-');
+
     }
 
     public function providerGetAccountFormatted()
     {
         return [
-            array('0499','743645 2'),
-            array('2400','746805/6'),
-            array('0813','681161/8'),
-            array('1116','851521-6'),
-            array('0499','785993.0'),
+            array('7436452'),
+            array('7468056'),
+            array('6811618'),
+            array('8515216'),
+            array('7859930'),
         ];
     }
 
