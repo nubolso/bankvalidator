@@ -2,8 +2,6 @@
     "name": "nubolso/bankvalidator",
     "description": "Este é um validador de contas bancárias",
     "require": {
-        "php": "^5.3.3 || ^7.0",
-        "phpunit/phpunit": "5.*",
-	"phpdocumentor/phpdocumentor": "2.*"
+        "php": "^5.3.3 || ^7.0"
     }
 }
