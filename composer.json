@@ -3,13 +3,7 @@
     "description": "Este é um validador de contas bancárias",
     "require": {
         "php": "^5.3.3 || ^7.0",
-        "another-vendor/package": "1.*",
         "phpunit/phpunit": "5.*",
 	"phpdocumentor/phpdocumentor": "2.*"
-    },
-    "autoload": {
-        "psr-4": {
-            "bankvalidator\\": "src/bankvalidator"
-        }
     }
 }
