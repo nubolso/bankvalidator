@@ -3,9 +3,7 @@
 
 declare(strict_types=1);
 
-
-namespace bankvalidator\banks;
-
+namespace bankvalidator\Bank;
 use bankvalidator\Bank;
 
 

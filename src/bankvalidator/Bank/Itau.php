@@ -1,7 +1,6 @@
 <?php
 
-namespace banks\Itau;
-
+namespace bankvalidator\Bank;
 use bankvalidator\Bank;
 
 class Itau extends Bank{

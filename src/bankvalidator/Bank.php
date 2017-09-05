@@ -1,4 +1,5 @@
 <?php
+
 namespace bankvalidator;
 /**
  * Abstract Class Bank
