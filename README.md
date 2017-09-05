@@ -1,7 +1,7 @@
-Validador de contas bancárias em PhP - Ciência da Computação - IFG - Anápolis 
+Validador de contas bancárias em PHP
 =============================================================================
 Este conjunto de classes permite a validação de contas bancárias dos seguintes Bancos: Itaú, Bradesco, Banco do Brasil, Santander, HSBC.
-Foi desenvolvido inicialmente pelos alunos do 2º período do bacharelado em Ciência da Computação do Instituto Federal de Goiás - Câmpus Anápolis como trabalho da disciplina de Programação Orientada a Objetos, sob a orientação do professor Alessandro Rodrigues e Silva. 
+Foi desenvolvido inicialmente por alunos de bacharelado em Ciência da Computação do Instituto Federal de Goiás - Câmpus Anápolis e foi incorporado pela equipe NuBolso para validações internas.
 
 Requisitos:
 ===========
@@ -10,6 +10,7 @@ Requisitos:
 
 Exemplos de Uso: 
 ================
+
 
 
   
